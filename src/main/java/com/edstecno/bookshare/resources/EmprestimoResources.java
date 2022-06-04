@@ -9,28 +9,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.edstecno.bookshare.entities.Tomador;
-import com.edstecno.bookshare.services.TomadorService;
+import com.edstecno.bookshare.entities.Emprestimo;
+import com.edstecno.bookshare.services.EmprestimoService;
 
 @RestController // Anotação que indica que a classe é implementada por um con trolador rest
-@RequestMapping(value = "/tomadores") // endereço que responde a requisição
-public class TomadorResources {
+@RequestMapping(value = "/emprestimos") // endereço que responde a requisição
+public class EmprestimoResources {
 
 	@Autowired
-	private TomadorService service;
+	private EmprestimoService service;
 
 	@GetMapping // Anotação que indica que o metodo responde ao tipo get do http
-	public ResponseEntity<List<Tomador>> findAll() {
+	
+	public ResponseEntity<List<Emprestimo>> findAll() {
 
-		List<Tomador> list = service.findAll();
+		List<Emprestimo> list = service.findAll();
 
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Tomador> findById(@PathVariable Long id) {
+	public ResponseEntity<Emprestimo> findById(@PathVariable Long id) {
 
-		Tomador obj = service.findById(id);
+		Emprestimo obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 

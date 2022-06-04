@@ -1,12 +1,15 @@
 package com.edstecno.bookshare.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,19 +22,23 @@ public class Tomador implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private String email;
 	private String celular;
+	private String email;
+
+	//@JsonIgnore
+	@OneToMany(mappedBy = "tomador")
+	private List<Emprestimo> emprestimos = new ArrayList<>();
 
 	public Tomador() {
 
 	}
 
-	public Tomador(Long id, String nome, String email, String celular) {
+	public Tomador(Long id, String nome, String celular, String email) {
 		this.id = id;
 		this.nome = nome;
-		this.email = email;
 		this.celular = celular;
-	}
+		this.email = email;
+	}	
 
 	public Long getId() {
 		return id;
@@ -49,20 +56,20 @@ public class Tomador implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getCelular() {
 		return celular;
 	}
 
 	public void setCelular(String celular) {
 		this.celular = celular;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override
@@ -79,7 +86,11 @@ public class Tomador implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Tomador other = (Tomador) obj;
-		return id == other.id;
+		return Objects.equals(id, other.id);
+	}
+
+	public List<Emprestimo> getEmprestimos() {
+		return emprestimos;
 	}
 
 }

@@ -12,7 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_emprestimos")
@@ -23,23 +24,29 @@ public class Emprestimo implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT")
+	
 	private Instant moment; // Antes da versão 8 usava-se o tipo date
 
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "doador_id")
+	@JoinColumn(name = "id_doador")
 	private Usuario doador;
 
-	@Autowired
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "id_tomador")
 	private Tomador tomador;
 
 	public Emprestimo() {
 
 	}
 
-	public Emprestimo(Long id, Instant moment, Usuario usuario, Tomador tomador) {
+	public Emprestimo(Long id, Instant moment, Usuario doador, Tomador tomador) {
 		this.id = id;
 		this.moment = moment;
-		this.doador = usuario;
+		this.doador = doador;
 		this.tomador = tomador;
 	}
 
@@ -59,12 +66,12 @@ public class Emprestimo implements Serializable {
 		this.moment = moment;
 	}
 
-	public Usuario getUsuario() {
+	public Usuario getDoador() {
 		return doador;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.doador = usuario;
+	public void setDoador(Usuario doador) {
+		this.doador = doador;
 	}
 
 	public Tomador getTomador() {

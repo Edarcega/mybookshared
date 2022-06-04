@@ -6,22 +6,23 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.edstecno.bookshare.entities.Tomador;
-import com.edstecno.bookshare.repositories.TomadorRepository;
+import com.edstecno.bookshare.entities.Emprestimo;
+import com.edstecno.bookshare.repositories.EmprestimoRepository;
 
 @Service // a calsse que vai se injetada automáticamente precisa estar registada como
 			// coponente do spring
-public class TomadorService {
+public class EmprestimoService {
 
 	@Autowired
-	private TomadorRepository repository;
+	private EmprestimoRepository repository;
 
-	public List<Tomador> findAll() {
+	public List<Emprestimo> findAll() {
 		return repository.findAll();
 	}
 
-	public Tomador findById(Long id) {
-		Optional<Tomador> obj = repository.findById(id); // Estudar o tipo Optional!
+	
+	public Emprestimo findById(Long id) {
+		Optional<Emprestimo> obj = repository.findById(id); // Estudar o tipo Optional!
 		return obj.get();
 	}
 
