@@ -1,13 +1,17 @@
 package com.edstecno.bookshare.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 
 @Entity // Notação do JPA para converter o objeto para o modelo relacional
 @Table(name = "tb_usuario")
@@ -23,6 +27,9 @@ public class Usuario implements Serializable{
 	private String email;
 	private String celular;
 	private String password;
+	
+	@OneToMany(mappedBy = "tomador")
+	private List<Emprestimo> emprestimos = new ArrayList<>();
 	
 	public Usuario() {
 		
@@ -76,6 +83,11 @@ public class Usuario implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public List<Emprestimo> getEmprestimos() {
+		return emprestimos;
+	}
+
 
 	@Override
 	public int hashCode() {
