@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.edstecno.bookshare.entities.enums.EmpStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,10 +25,12 @@ public class Emprestimo implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT")
-	
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+
 	private Instant moment; // Antes da versão 8 usava-se o tipo date
+
+	private Integer empStatus;
 
 	@JsonIgnore
 	@ManyToOne
@@ -43,11 +46,12 @@ public class Emprestimo implements Serializable {
 
 	}
 
-	public Emprestimo(Long id, Instant moment, Usuario doador, Tomador tomador) {
+	public Emprestimo(Long id, Instant moment, Usuario doador, Tomador tomador, EmpStatus empStatus) {
 		this.id = id;
 		this.moment = moment;
 		this.doador = doador;
 		this.tomador = tomador;
+		setEmpStatus(empStatus);
 	}
 
 	public Long getId() {
@@ -80,6 +84,16 @@ public class Emprestimo implements Serializable {
 
 	public void setTomador(Tomador tomador) {
 		this.tomador = tomador;
+	}
+
+	public EmpStatus getEmpStatus() {
+		return EmpStatus.valueOf(empStatus);
+	}
+
+	public void setEmpStatus(EmpStatus empStatus) {
+		if(empStatus != null) {
+			this.empStatus = empStatus.getCode();
+		}
 	}
 
 	@Override
