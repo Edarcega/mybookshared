@@ -2,7 +2,9 @@ package com.edstecno.bookshare.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.edstecno.bookshare.entities.enums.EmpStatus;
@@ -37,10 +40,13 @@ public class Emprestimo implements Serializable {
 	@JoinColumn(name = "id_doador")
 	private Usuario doador;
 
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_tomador")
 	private Tomador tomador;
+
+	@OneToMany(mappedBy = "id.emprestimo")
+	private Set<ItemEmprestimo> items = new HashSet<>();
 
 	public Emprestimo() {
 
@@ -86,12 +92,16 @@ public class Emprestimo implements Serializable {
 		this.tomador = tomador;
 	}
 
+	public Set<ItemEmprestimo> getItems() {
+		return items;
+	}
+
 	public EmpStatus getEmpStatus() {
 		return EmpStatus.valueOf(empStatus);
 	}
 
 	public void setEmpStatus(EmpStatus empStatus) {
-		if(empStatus != null) {
+		if (empStatus != null) {
 			this.empStatus = empStatus.getCode();
 		}
 	}

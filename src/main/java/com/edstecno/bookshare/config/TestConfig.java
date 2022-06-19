@@ -10,11 +10,16 @@ import org.springframework.context.annotation.Profile;
 
 import com.edstecno.bookshare.entities.Categoria;
 import com.edstecno.bookshare.entities.Emprestimo;
+import com.edstecno.bookshare.entities.ItemEmprestimo;
+import com.edstecno.bookshare.entities.Livro;
 import com.edstecno.bookshare.entities.Tomador;
 import com.edstecno.bookshare.entities.Usuario;
 import com.edstecno.bookshare.entities.enums.EmpStatus;
+import com.edstecno.bookshare.entities.enums.TipoEmprestimo;
 import com.edstecno.bookshare.repositories.CategoriaRepository;
 import com.edstecno.bookshare.repositories.EmprestimoRepository;
+import com.edstecno.bookshare.repositories.ItemEmprestimoRepository;
+import com.edstecno.bookshare.repositories.LivroRepository;
 import com.edstecno.bookshare.repositories.TomadorRepository;
 import com.edstecno.bookshare.repositories.UserRepository;
 
@@ -30,10 +35,15 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired // Resolve a questão de injjeção de dependência
 	private EmprestimoRepository empRepository;
-	
+
 	@Autowired
 	private CategoriaRepository catRepository;
-	
+
+	@Autowired
+	private LivroRepository livroRepository;
+
+	@Autowired
+	private ItemEmprestimoRepository itemEmprestimoRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -47,19 +57,38 @@ public class TestConfig implements CommandLineRunner {
 
 		tomadorRepository.saveAll(Arrays.asList(t1, t2, t3));
 
-		Emprestimo emp1 = new Emprestimo(null, Instant.parse("2022-06-24T17:11:00Z"), u1, t3, EmpStatus.EM_DIA);
-		Emprestimo emp2 = new Emprestimo(null, Instant.parse("2022-06-24T17:11:00Z"), u1, t1, EmpStatus.EM_ATRASO);
-		Emprestimo emp3 = new Emprestimo(null, Instant.parse("2022-06-24T17:11:00Z"), u1, t1, EmpStatus.EM_DIA);
-
-		empRepository.saveAll(Arrays.asList(emp1, emp2, emp3));
-		
 		Categoria cat1 = new Categoria(null, "Romance");
 		Categoria cat2 = new Categoria(null, "Religioso");
 		Categoria cat3 = new Categoria(null, "Fantasia");
 		Categoria cat4 = new Categoria(null, "Didático");
+		Categoria cat5 = new Categoria(null, "Auto-ajuda");
+
+		catRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5));
+
+		Livro lv1 = new Livro(null, "O poder do hábito", "Charles Duhigg", "V 1", "Livro sobre nossos hábitos", "");
+		Livro lv2 = new Livro(null, "La imposible Ausente", "Daiane Rodrigues", "V 1", "Biográfia Josefina PLá", "");
+		Livro lv3 = new Livro(null, "Jerusalém", "Karen Armstrong", "V 1", "Uma cidade três religiões", "");
+
+		//livroRepository.saveAll(Arrays.asList(lv1, lv2, lv3));
+
+		lv1.getCategorias().add(cat5);
+		lv2.getCategorias().add(cat1);
+		lv3.getCategorias().add(cat2);
+
+		livroRepository.saveAll(Arrays.asList(lv1, lv2, lv3));
+
+		Emprestimo emp1 = new Emprestimo(null, Instant.parse("2022-06-19T17:11:00Z"), u1, t1, EmpStatus.EM_DIA);
+		Emprestimo emp2 = new Emprestimo(null, Instant.parse("2022-06-19T17:11:00Z"), u1, t1, EmpStatus.EM_ATRASO);
+		Emprestimo emp3 = new Emprestimo(null, Instant.parse("2022-06-19T17:11:00Z"), u1, t1, EmpStatus.EM_DIA);
+
+		empRepository.saveAll(Arrays.asList(emp1, emp2, emp3));
+
+		ItemEmprestimo iEmp1 = new ItemEmprestimo(emp1, lv2, 1, TipoEmprestimo.COMUM);
+		ItemEmprestimo iEmp2 = new ItemEmprestimo(emp2, lv2, 1, TipoEmprestimo.ESPECIAL);
+		ItemEmprestimo iEmp3 = new ItemEmprestimo(emp3, lv3, 1, TipoEmprestimo.ESPECIAL);
 		
-		catRepository.saveAll(Arrays.asList(cat1,cat2,cat3,cat4));
-		
+		itemEmprestimoRepository.saveAll(Arrays.asList(iEmp1, iEmp2, iEmp3));
+
 	}
 
 }
