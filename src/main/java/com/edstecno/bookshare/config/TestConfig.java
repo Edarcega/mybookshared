@@ -69,7 +69,7 @@ public class TestConfig implements CommandLineRunner {
 		Livro lv2 = new Livro(null, "La imposible Ausente", "Daiane Rodrigues", "V 1", "Biográfia Josefina PLá", "");
 		Livro lv3 = new Livro(null, "Jerusalém", "Karen Armstrong", "V 1", "Uma cidade três religiões", "");
 
-		//livroRepository.saveAll(Arrays.asList(lv1, lv2, lv3));
+		// livroRepository.saveAll(Arrays.asList(lv1, lv2, lv3));
 
 		lv1.getCategorias().add(cat5);
 		lv2.getCategorias().add(cat1);
@@ -77,16 +77,16 @@ public class TestConfig implements CommandLineRunner {
 
 		livroRepository.saveAll(Arrays.asList(lv1, lv2, lv3));
 
-		Emprestimo emp1 = new Emprestimo(null, Instant.parse("2022-06-19T17:11:00Z"), u1, t1, EmpStatus.EM_DIA);
-		Emprestimo emp2 = new Emprestimo(null, Instant.parse("2022-06-19T17:11:00Z"), u1, t1, EmpStatus.EM_ATRASO);
-		Emprestimo emp3 = new Emprestimo(null, Instant.parse("2022-06-19T17:11:00Z"), u1, t1, EmpStatus.EM_DIA);
+		Emprestimo emp1 = new Emprestimo(null, Instant.parse("2022-06-24T09:00:00Z"), u1, t1, EmpStatus.EM_DIA);
+		Emprestimo emp2 = new Emprestimo(null, Instant.parse("2022-06-24T09:00:00Z"), u1, t2, EmpStatus.EM_ATRASO);
+		Emprestimo emp3 = new Emprestimo(null, Instant.parse("2022-06-24T09:00:00Z"), u1, t3, EmpStatus.EM_DIA);
 
 		empRepository.saveAll(Arrays.asList(emp1, emp2, emp3));
 
-		ItemEmprestimo iEmp1 = new ItemEmprestimo(emp1, lv2, 1, TipoEmprestimo.COMUM);
-		ItemEmprestimo iEmp2 = new ItemEmprestimo(emp2, lv2, 1, TipoEmprestimo.ESPECIAL);
-		ItemEmprestimo iEmp3 = new ItemEmprestimo(emp3, lv3, 1, TipoEmprestimo.ESPECIAL);
-		
+		ItemEmprestimo iEmp1 = new ItemEmprestimo(emp1, lv1, 1, TipoEmprestimo.COMUM);
+		ItemEmprestimo iEmp2 = new ItemEmprestimo(emp1, lv2, 1, TipoEmprestimo.ESPECIAL);
+		ItemEmprestimo iEmp3 = new ItemEmprestimo(emp1, lv3, 1, TipoEmprestimo.ESPECIAL);
+
 		itemEmprestimoRepository.saveAll(Arrays.asList(iEmp1, iEmp2, iEmp3));
 
 	}
